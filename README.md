@@ -1,2 +1,2 @@
 # RScriptsandStuff
-Some short scripts showcasing popular machine learning algotithms and data engineering processes. As I continue to learn and write scripts, I will upload them here.
+Some short scripts showcasing popular machine learning algorithms and data engineering processes. As I continue to learn and write scripts, I will upload them here. Please feel free to copy any part of the code and use it in your projects. I advise taking a look at the finance files since they contain scripts that apply rolling functions within multiple groups in a single vector, very usefull for efficiently wokring with timer series data.
