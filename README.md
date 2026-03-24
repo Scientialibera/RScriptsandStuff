@@ -3,119 +3,142 @@
 [![R-CMD-check](https://github.com/Scientialibera/RScriptsandStuff/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Scientialibera/RScriptsandStuff/actions/workflows/R-CMD-check.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Enterprise-grade R package that consolidates machine learning classifiers, quantitative finance tools, and NLP utilities into reusable, tested, documented functions.
+Enterprise-grade R package consolidating machine learning classifiers, quantitative finance tools, and NLP utilities into reusable, tested, documented functions with full input validation and structured error handling.
+
+## Installation
+
+```r
+# From GitHub (recommended)
+remotes::install_github("Scientialibera/RScriptsandStuff")
+
+# Or clone + install locally
+git clone https://github.com/Scientialibera/RScriptsandStuff.git
+R CMD INSTALL RScriptsandStuff
+```
 
 ## Package Structure
 
 ```
 RScriptsandStuff/
-├── R/                          # Modular function library
-│   ├── classification.R        # KNN & XGBoost with cross-validation
-│   ├── deep_learning.R         # Configurable CNN builder (Keras)
-│   ├── finance.R               # Stock data, log returns, screening, ARIMA
-│   ├── portfolio.R             # Random portfolios, CAPM, growth plots
-│   ├── nlp.R                   # Spam detection, sentiment analysis
-│   └── regression.R            # Multiple regression & scatter plots
-├── tests/testthat/             # Unit tests (testthat v3)
-├── inst/examples/              # Runnable example scripts
-├── man/                        # Auto-generated roxygen2 docs
-├── .github/workflows/          # CI: R-CMD-check on 4 platforms
-├── DESCRIPTION                 # Package metadata & dependencies
-├── NAMESPACE                   # Exported functions
-└── LICENSE                     # MIT
+├── R/
+│   ├── RScriptsandStuff-package.R   # Package-level documentation
+│   ├── classification.R             # KNN & XGBoost with cross-validation
+│   ├── deep_learning.R              # Configurable CNN builder (Keras)
+│   ├── finance.R                    # Stock data, log returns, screening, ARIMA
+│   ├── portfolio.R                  # Random portfolios, CAPM, growth plots
+│   ├── nlp.R                        # Spam detection, sentiment analysis
+│   ├── regression.R                 # Multiple regression & scatter plots
+│   ├── utils.R                      # Internal validation helpers
+│   └── zzz.R                        # .onAttach startup message
+├── tests/testthat/                  # Unit tests (testthat v3)
+│   ├── test-classification.R
+│   ├── test-finance.R
+│   ├── test-portfolio.R
+│   ├── test-nlp.R
+│   ├── test-regression.R
+│   └── test-utils.R
+├── inst/
+│   ├── examples/                    # 7 runnable example scripts
+│   └── extdata/                     # Sample datasets (Iris_Example.xlsx)
+├── man/                             # Auto-generated roxygen2 docs
+├── .github/workflows/               # CI: R-CMD-check (4 platforms) + coverage
+├── DESCRIPTION                      # Package metadata & versioned dependencies
+├── NAMESPACE                        # 20 exported functions
+├── LICENSE                          # MIT
+├── NEWS.md                          # Changelog
+├── CONTRIBUTING.md                  # Contribution guidelines
+├── CODE_OF_CONDUCT.md               # Contributor Covenant
+├── .Rbuildignore                    # R CMD build exclusions
+├── .lintr                           # Lint configuration
+└── .gitignore
 ```
 
-## Modules
+## Modules & API Reference
 
 ### Classification (`R/classification.R`)
 
 | Function | Description |
 |---|---|
-| `train_knn_cv()` | KNN with repeated k-fold cross-validation |
-| `predict_knn_cv()` | Predict + confusion matrix + accuracy |
-| `train_xgboost_cv()` | XGBoost with configurable hyperparameters |
-| `predict_xgboost_cv()` | Threshold-based binary prediction |
-| `classification_metrics()` | Accuracy, precision, sensitivity, specificity |
+| `train_knn_cv(data, formula, ...)` | KNN with repeated k-fold cross-validation |
+| `predict_knn_cv(model, newdata, truth_col)` | Predict + confusion matrix + accuracy |
+| `train_xgboost_cv(x, y, ...)` | XGBoost with configurable hyperparameter grid |
+| `predict_xgboost_cv(model, newdata, threshold)` | Threshold-based binary prediction |
+| `classification_metrics(predicted, actual)` | Accuracy, precision, sensitivity, specificity |
 
 ### Deep Learning (`R/deep_learning.R`)
 
 | Function | Description |
 |---|---|
-| `build_cnn_model()` | Configurable CNN (conv layers, dropout, dense) |
+| `build_cnn_model(input_shape, num_classes, ...)` | Configurable CNN (conv blocks, dropout, dense, softmax) |
 
 ### Quantitative Finance (`R/finance.R`)
 
 | Function | Description |
 |---|---|
-| `fetch_stock_prices()` | Download from Yahoo Finance via quantmod |
-| `compute_log_returns()` | Log-differenced returns |
-| `screen_stocks_by_return()` | Filter by top-quantile mean return |
-| `screen_stocks_by_risk()` | Filter by bottom-quantile volatility |
-| `screen_stocks_by_cv()` | Filter by coefficient of variation |
-| `fit_arima_forecast()` | Auto or manual ARIMA + forecast |
+| `fetch_stock_prices(symbols, from, to)` | Download from Yahoo Finance via quantmod |
+| `compute_log_returns(prices, lag)` | Log-differenced returns with validation |
+| `screen_stocks_by_return(ticker_table, quantile_threshold)` | Filter by top-quantile mean return |
+| `screen_stocks_by_risk(ticker_table, quantile_threshold)` | Filter by bottom-quantile volatility |
+| `screen_stocks_by_cv(ticker_table, quantile_threshold)` | Filter by coefficient of variation |
+| `fit_arima_forecast(ts_data, h, order, seasonal, xreg)` | Auto or manual ARIMA + forecast |
 
 ### Portfolio Optimization (`R/portfolio.R`)
 
 | Function | Description |
 |---|---|
-| `build_random_portfolio()` | Random sparse weight generation |
-| `evaluate_portfolio_capm()` | CAPM table vs benchmark |
-| `plot_portfolio_growth()` | Investment growth ggplot |
+| `build_random_portfolio(tickers, zero_fraction, seed)` | Random sparse weight generation |
+| `evaluate_portfolio_capm(portfolio_returns, benchmark_returns)` | CAPM table vs benchmark |
+| `plot_portfolio_growth(growth_df, title)` | Investment growth ggplot |
 
 ### NLP (`R/nlp.R`)
 
 | Function | Description |
 |---|---|
-| `build_spam_detector()` | DTM + freq-filter + Naive Bayes training |
-| `predict_spam()` | Predict on held-out or new documents |
-| `analyze_sentiment()` | Bing lexicon sentiment scoring |
+| `build_spam_detector(texts, labels, ...)` | DTM + freq-filter + Naive Bayes training |
+| `predict_spam(detector, newdtm)` | Predict on held-out or new documents |
+| `analyze_sentiment(texts)` | Bing lexicon per-document sentiment scoring |
 
 ### Regression (`R/regression.R`)
 
 | Function | Description |
 |---|---|
-| `run_multiple_regression()` | lm + summary + correlation matrix |
-| `plot_regression()` | Scatter + lm smooth, optional faceting |
-
-## Installation
-
-```r
-# Install from GitHub
-remotes::install_github("Scientialibera/RScriptsandStuff")
-
-# Or clone and install locally
-# git clone https://github.com/Scientialibera/RScriptsandStuff.git
-# R CMD INSTALL RScriptsandStuff
-```
+| `run_multiple_regression(data, formula)` | lm + summary + correlation matrix |
+| `plot_regression(data, x, y, colour, facet)` | Scatter + lm smooth, optional faceting |
 
 ## Quick Start
 
 ```r
 library(RScriptsandStuff)
 
-# --- Classification ---
+# --- Classification: KNN on Iris ---
 model <- train_knn_cv(iris, Species ~ ., k_range = 1:15)
 result <- predict_knn_cv(model, iris[1:10, ], "Species")
+print(result$accuracy)
 
-# --- Finance ---
+# --- Finance: ARIMA Forecast ---
 prices <- fetch_stock_prices("AAPL", from = "2023-01-01", to = "2024-01-01")
 fc <- fit_arima_forecast(prices[, "AAPL.Adjusted"], h = 30)
 plot(fc)
 
-# --- NLP ---
-sentiment <- analyze_sentiment(c("Great product!", "Terrible service."))
+# --- Finance: Stock Screening ---
+log_rets <- compute_log_returns(c(100, 110, 121, 115, 130))
 
-# --- Portfolio ---
+# --- Portfolio: Random Allocation ---
 weights <- build_random_portfolio(c("AAPL", "MSFT", "GOOG"), zero_fraction = 0.3)
+print(weights)
 
-# --- Regression ---
+# --- NLP: Sentiment Analysis ---
+sentiment <- analyze_sentiment(c("Great earnings report!", "Market crash fears."))
+print(sentiment)
+
+# --- Regression: Iris ---
 result <- run_multiple_regression(iris, Petal.Width ~ Sepal.Length + Sepal.Width)
-plot_regression(iris, Sepal.Length, Petal.Width, colour = Species)
+plot_regression(iris, Sepal.Length, Petal.Width, colour = Species, facet = TRUE)
 ```
 
 ## Running Examples
 
-Full worked examples are in `inst/examples/`:
+Full worked examples live in `inst/examples/`:
 
 ```r
 source(system.file("examples", "knn_iris.R", package = "RScriptsandStuff"))
@@ -130,33 +153,34 @@ source(system.file("examples", "cnn_fashion_mnist.R", package = "RScriptsandStuf
 ## Testing
 
 ```r
+# Run all tests
 devtools::test()
+
+# With coverage report
+covr::package_coverage()
 ```
 
-Tests cover all modules using `testthat` v3. CI runs on Ubuntu, Windows, and macOS across R release and devel.
+Tests cover all 6 modules + internal utilities with happy-path, edge-case, and error-path assertions. CI runs on Ubuntu, Windows, and macOS across R release and devel.
 
-## Original Scripts
+## Enterprise Features
 
-The original flat scripts are preserved in the repo root for reference:
-
-| Script | Now in module |
-|---|---|
-| `Cross_Validation_Knn.R` | `R/classification.R` |
-| `Pima_Exercise_1.R` | `R/classification.R` |
-| `Deep_Learning_Convolutional.R` | `R/deep_learning.R` |
-| `Chaotic_Learning.R` | `R/finance.R` |
-| `Time_Series.R` | `R/finance.R` |
-| `Quantitative_Finance.R` | `R/finance.R` |
-| `Financial_Feature_Engineering.R` | `R/finance.R` |
-| `Portfolio_Optimization_TSX.R` | `R/portfolio.R` |
-| `Spam_Detector.R` | `R/nlp.R` |
-| `Single_Sentiment_Analysis.R` | `R/nlp.R` |
-| `R_Iris_Multiple_Regression.R` | `R/regression.R` |
+- **Input validation**: Every exported function validates arguments with `stopifnot()` and informative error messages.
+- **Error handling**: External API calls (Yahoo Finance, ARIMA fitting) wrapped in `tryCatch()` with descriptive re-thrown errors.
+- **Soft dependencies**: `keras`/`tensorflow` and `tidytext` are optional — functions fail gracefully with install instructions.
+- **Internal utilities**: Shared validation helpers in `R/utils.R` prevent code duplication.
+- **CI/CD**: GitHub Actions on 4 OS/R-version combos + automated code coverage.
+- **Lint configuration**: `.lintr` enforces 120-char lines and snake_case naming.
+- **Documentation**: Full roxygen2 docs with `@param`, `@return`, `@export`, `@examples`.
+- **Changelog**: `NEWS.md` tracks breaking changes and new features per release.
 
 ## Disclaimer
 
 The quantitative finance modules are for **educational purposes only** and do not constitute investment advice.
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
-MIT -- see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).

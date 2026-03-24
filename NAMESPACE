@@ -22,4 +22,4 @@ export(plot_regression)
 export(run_multiple_regression)
 
 importFrom(stats, predict, cor, lm, na.omit, quantile, sd, var)
-importFrom(utils, head)
+importFrom(utils, head, packageVersion, tail)

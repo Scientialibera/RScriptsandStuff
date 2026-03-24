@@ -6,38 +6,46 @@ Authors@R: person("Emilio", "Arzamendi", role = c("aut", "cre"),
 Description: Enterprise-grade R package consolidating machine learning
     classifiers (KNN, XGBoost, CNN), quantitative finance tools (portfolio
     optimization, CAPM screening, ARIMA forecasting), and NLP utilities
-    (spam detection, sentiment analysis) into reusable, tested functions.
+    (spam detection, sentiment analysis) into reusable, tested functions
+    with full input validation and structured error handling.
 License: MIT + file LICENSE
+URL: https://github.com/Scientialibera/RScriptsandStuff
+BugReports: https://github.com/Scientialibera/RScriptsandStuff/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+LazyData: true
 Depends:
     R (>= 4.1.0)
 Imports:
     caret,
-    class,
     dplyr,
     e1071,
     forecast,
     ggplot2,
-    gmodels,
-    quantmod,
     PerformanceAnalytics,
-    rsample,
-    SnowballC,
+    quantmod,
+    scales,
     tibble,
     tidyquant,
-    tidyverse,
+    tidyr,
     tm,
-    xgboost
+    SnowballC
 Suggests:
-    keras,
-    tensorflow,
-    testthat (>= 3.0.0),
+    class,
     covr,
+    gmodels,
     htmltab,
+    keras,
+    lintr,
     plotly,
     rcompanion,
+    rsample,
     rvest,
-    tidytext
+    splitstackshape,
+    tensorflow,
+    testthat (>= 3.0.0),
+    tidytext,
+    tidyverse,
+    xgboost
 Config/testthat/edition: 3

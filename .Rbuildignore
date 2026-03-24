@@ -1,0 +1,9 @@
+^\.github$
+^\.Rprofile$
+^LICENSE\.md$
+^README\.Rmd$
+^\.lintr$
+^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^vignettes/.*\.html$
