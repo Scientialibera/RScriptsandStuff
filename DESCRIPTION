@@ -1,0 +1,43 @@
+Package: RScriptsandStuff
+Title: Machine Learning, Quantitative Finance, and NLP Toolkit in R
+Version: 1.0.0
+Authors@R: person("Emilio", "Arzamendi", role = c("aut", "cre"),
+                  email = "emilio@scientialibera.com")
+Description: Enterprise-grade R package consolidating machine learning
+    classifiers (KNN, XGBoost, CNN), quantitative finance tools (portfolio
+    optimization, CAPM screening, ARIMA forecasting), and NLP utilities
+    (spam detection, sentiment analysis) into reusable, tested functions.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends:
+    R (>= 4.1.0)
+Imports:
+    caret,
+    class,
+    dplyr,
+    e1071,
+    forecast,
+    ggplot2,
+    gmodels,
+    quantmod,
+    PerformanceAnalytics,
+    rsample,
+    SnowballC,
+    tibble,
+    tidyquant,
+    tidyverse,
+    tm,
+    xgboost
+Suggests:
+    keras,
+    tensorflow,
+    testthat (>= 3.0.0),
+    covr,
+    htmltab,
+    plotly,
+    rcompanion,
+    rvest,
+    tidytext
+Config/testthat/edition: 3
